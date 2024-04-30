@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "startsaswisper"
+version = "0.1.0"
+description = ""
+authors = ["Wesley <rademakerwesley@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+ipykernel = "^6.29.4"
+jupyter = "^1.0.0"
+transformers = "^4.40.1"
+accelerate = "^0.29.3"
+datasets = {extras = ["audio"], version = "^2.19.0"}
+pytorch-lightning = "^2.2.3"
+jiwer = "^3.0.3"
+torchaudio = "^2.3.0"
+matplotlib = "^3.8.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
