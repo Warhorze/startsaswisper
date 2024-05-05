@@ -19,21 +19,20 @@ def filter_data(
 ) -> List[str]:
     """Filter the dataset based on the provided criteria and return the indecises of the selected recordings"""
     df["created_at"] = pd.to_datetime(df["created_at"])
-    _, created_from_date, created_to_date, user_id, unit_id = conf
 
     conditions = (
         (
-            (df["created_at"] >= created_from_date)
-            if created_from_date is not None
+            (df["created_at"] >= conf.created_from_date)
+            if conf.created_from_date is not None
             else True
         ),
         (
-            (df["created_at"] <= created_to_date)
-            if created_to_date is not None
+            (df["created_at"] <= conf.created_to_date)
+            if conf.created_to_date is not None
             else True
         ),
-        (df["user_id"] == user_id) if user_id is not None else True,
-        (df["unit_id"] == unit_id) if unit_id is not None else True,
+        (df["user_id"] == conf.user_id) if conf.user_id is not None else True,
+        (df["unit_id"] == conf.unit_id) if conf.unit_id is not None else True,
     )
 
     # Apply filters
@@ -109,13 +108,13 @@ def parse_arguments():
     )
     parser.add_argument(
         "--user_id",
-        type=str,
+        type=int,
         default=None,
         help="Filter recordings to evaluate by user id. See Data section for more information.",
     )
     parser.add_argument(
         "--unit_id",
-        type=str,
+        type=int,
         default=None,
         help="Filter recordings to evaluate by unit id. See Data section for more information.",
     )
@@ -152,9 +151,9 @@ def main():
     pdf = pd.read_csv(METADATA_PATH)
     indx_records = filter_data(pdf, conf=args)
     dataset = get_dataset(rows=indx_records)
-
+    print()
     results = evaluate(dataset, record_ids=indx_records, pipeline=pipe)
-
+    print(results)
     return results
 
 
